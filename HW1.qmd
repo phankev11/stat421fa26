@@ -12,14 +12,14 @@ set.seed(67)
 x <- rnorm(1000)
 ```
 
-    a.  Remove all the values of this vector between 0 and 1. How many values remain in the vector? Compute the mean of the remaining values.
+a.  Remove all the values of this vector between 0 and 1. How many values remain in the vector? Compute the mean of the remaining values.
 
 ```{r}
 length(x[x <= 0 | x >= 1])
 mean(x[x <= 0 | x >= 1])
 ```
 
-    b.  Write a function that computes this mean as a function of $n$. Run this function once, for $n = 100$.
+b.  Write a function that computes this mean as a function of $n$. Run this function once, for $n = 100$.
 
 ```{r}
 normal_mean <- function(n) {
@@ -30,7 +30,7 @@ normal_mean <- function(n) {
 normal_mean(100)
 ```
 
-    c.  Using a for loop, run this function 500 times with $n = 10$. Store these 500 values in a vector and then plot a histogram of these values. Report the largest and smallest values from the 500 runs.
+c.  Using a for loop, run this function 500 times with $n = 10$. Store these 500 values in a vector and then plot a histogram of these values. Report the largest and smallest values from the 500 runs.
 
 ```{r}
 y <- numeric(500)
@@ -86,7 +86,7 @@ win_pct(100000)
 win_pct(1000000)
 ```
 
-    *As the number of craps games played increases, the percentage of craps games won seems to converge to around 49%. Therefore, by the law of large numbers, I estimate the probability of winning to be about 0.49.*
+*As the number of craps games played increases, the percentage of craps games won seems to converge to around 49%. Therefore, by the law of large numbers, I estimate the probability of winning to be about 0.49.*
 
 3.  Using a while loop, write a function that counts the number of times a 6-sided die must be rolled until you get a six and returns the number of rolls. Run this function a large number of times to estimate the average number of times a die must be rolled until you get a 6.
 
@@ -116,8 +116,7 @@ average_rolls(100000)
 average_rolls(1000000)
 ```
 
-
-    *As the number of die roll experiments increases, the average number of rolls to roll a 6 seems to converge to about 6. Therefore, by the law of large numbers, I estimate the  average number of die rolls it takes to roll a 6 is about 6.*
+*As the number of die roll experiments increases, the average number of rolls to roll a 6 seems to converge to about 6. Therefore, by the law of large numbers, I estimate the average number of die rolls it takes to roll a 6 is about 6.*
 
 4.  Write a function that computes the $k$-Winsorized mean of a vector (the $k$-Winsorized mean calculates the average of a dataset after replacing its $k$ smallest and $k$ largest values with their nearest remaining neighbor to minimize outlier distortion). The arguments of the function should be a vector and $k$.
 
@@ -144,11 +143,9 @@ mean(chi_means)
 var(chi_means)
 ```
 
-   
-    *I calculate a mean of $\overline{x} = 5.0119$ and a variance $s^2 = 1.0141$. This aligns with what is expected ($\mu = k = 5$ and $\sigma^2 = \frac{2k}{n} = 1)$*
+*I calculate a mean of* $\overline{x} = 5.0119$ *and a variance* $s^2 = 1.0141$ *. This aligns with what is expected (*$\mu = k = 5$ *and* $\sigma^2 = \frac{2k}{n} = 1$*).*
 
-    Next, using the function that you wrote in question 4, generate $n = 10$ observations from a chi squared distribution with 5 degrees of freedom and calculate the $k$-Winsorized mean with $k = 1$. Repeat this 10000 times to get 10000 1-Winsorized means. Compute the mean and variance of these 10000 $1$-Winsorized means. Then repeat this for $k = 2$, $3$, and $4$-Winsorized means and compute the mean and varaince of these sample means. Show your results in a table with three columns $k$, mean, and variance. Also, display your results with the value $k$ on the x-axis and the mean on the y-axis with a red horizontal line representing the true theoretical mean.
-
+Next, using the function that you wrote in question 4, generate $n = 10$ observations from a chi squared distribution with 5 degrees of freedom and calculate the $k$-Winsorized mean with $k = 1$. Repeat this 10000 times to get 10000 1-Winsorized means. Compute the mean and variance of these 10000 $1$-Winsorized means. Then repeat this for $k = 2$, $3$, and $4$-Winsorized means and compute the mean and varaince of these sample means. Show your results in a table with three columns $k$, mean, and variance. Also, display your results with the value $k$ on the x-axis and the mean on the y-axis with a red horizontal line representing the true theoretical mean.
 
 ```{r}
 k_winsorized_chi_means <- function(k) {
@@ -165,10 +162,14 @@ three_winsorized_chi_means <- k_winsorized_chi_means(3)
 four_winsorized_chi_means <- k_winsorized_chi_means(4)
 
 winsorized_table <- data.frame(k = c(1, 2, 3, 4),
-                               mean = c(mean(one_winsorized_chi_means), mean(two_winsorized_chi_means),
-                                        mean(three_winsorized_chi_means), mean(four_winsorized_chi_means)),
-                               variance = c(var(one_winsorized_chi_means), var(two_winsorized_chi_means),
-                                            var(three_winsorized_chi_means), var(four_winsorized_chi_means)))
+                               mean = c(mean(one_winsorized_chi_means),
+                                        mean(two_winsorized_chi_means),
+                                        mean(three_winsorized_chi_means),
+                                        mean(four_winsorized_chi_means)),
+                               variance = c(var(one_winsorized_chi_means),
+                                            var(two_winsorized_chi_means),
+                                            var(three_winsorized_chi_means),
+                                            var(four_winsorized_chi_means)))
 
 winsorized_table
 
