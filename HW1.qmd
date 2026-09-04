@@ -1,0 +1,111 @@
+---
+title: "Homework 1"
+author: "Kevin Phan"
+format: html
+editor: visual
+number-sections: true
+---
+
+1.  Generate 1000 random draws from a standard normal distribution and store the values in a vector called x.
+
+    ```{r}
+    set.seed(67)
+    x <- rnorm(1000)
+    ```
+
+    a.  Remove all the values of this vector between 0 and 1. How many values remain in the vector? Compute the mean of the remaining values.
+
+        ```{r}
+        length(x[x <= 0 | x >= 1])
+        mean(x[x <= 0 | x >= 1])
+        ```
+
+    b.  Write a function that computes this mean as a function of n. Run this function once, for n = 100.
+
+        ```{r}
+        normal_mean <- function(n) {
+          x <- rnorm(n)
+          return(mean(x[x <= 0 | x >= 1]))
+        }
+
+        normal_mean(100)
+        ```
+
+    c.  Using a for loop, run this function 500 times with n = 10. Store these 500 values in a vector and then plot a histogram of these values. Report the largest and smallest values from the 500 runs.
+
+        ```{r}
+        y <- numeric(500)
+        for (i in 1:500) {
+          y[i] <- normal_mean(10)
+        }
+
+        hist(y)
+        max(y)
+        min(y)
+        ```
+
+2.  The game of craps is played as follows. First, you roll two six-sided dice; let x be the sum of the dice on the first roll. If x = 7 or 11 you win immediately, if x = 2, 3, or 12 you lose immediately, otherwise you keep rolling until either you get x again, in which case you also win, or until you get a 7, in which case you lose.
+
+    Write a program to simulate a game of craps and estimate the probability that a player wins. You can use the following snippet of code to simulate the roll of two (fair) dice:
+
+    ``` r
+    x <- sum(sample(1:6, 2, replace = TRUE))
+    ```
+
+    ```{r}
+    craps_win <- function() {
+      roll_1 <- sum(sample(1:6, 2, replace = TRUE))
+      if (roll_1 == 2 | roll_1 == 3 | roll_1 == 12) {
+        return(FALSE)
+      } else if (roll_1 == 7 | roll_1 == 11) {
+        return(TRUE)
+      } else {
+        next_roll <- sum(sample(1:6, 2, replace = TRUE))
+        while(next_roll != roll_1) {
+          if (next_roll == 7) {
+            return(FALSE)
+          } else {
+            next_roll <- sum(sample(1:6, 2, replace = TRUE))
+          }
+        }
+        return(TRUE)
+      }
+    }
+
+    win_pct <- function(n) {
+      games <- logical(n)
+      for (i in 1:n) {
+        games[i] <- craps_win()
+      }
+      return(sum(games) / n)
+    }
+
+    win_pct(100)
+    win_pct(1000)
+    win_pct(10000)
+    win_pct(100000)
+    win_pct(1000000)
+    ```
+
+    *As the number of craps games played increases, the percentage of craps games won seems to converge to around 49%. Therefore, by the law of large numbers, I estimate the probability of winning to be about 0.49.*
+
+3.  Using a while loop, write a function that counts the number of times a 6-sided die must be rolled until you get a six and returns the number of rolls. Run this function a large number of times to estimate the average number of times a die must be rolled until you get a 6.
+
+    ```{r}
+    rolls_until_6 <- function() {
+      rolls <- NULL
+      roll <- sample(1:6, 1)
+      num_rolls <- 1
+      rolls <- c(rolls, roll)
+      while (roll != 6) {
+        roll <- sample(1:6, 1)
+        num_rolls <- num_rolls + 1
+        rolls <- c(rolls, roll)
+      }
+      return(list(rolls, num_rolls))
+    }
+
+    rolls_until_6()
+    ```
+
+4.  
